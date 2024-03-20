@@ -1,36 +1,44 @@
+#! /usr/bin/env mode
+import chalk from "chalk";
 import inquirer from "inquirer";
-import Choices from "inquirer/lib/objects/choices.js";
 
 const result = await inquirer.prompt([
-  { message: "Please enter first digit: ", 
-  type: "number", 
-  name: "message1"
+  { 
+    message: chalk.blueBright.bold("\nPlease enter first digit:"), 
+    type: "number", 
+    name: "message1"
   },
-
-  { message: "Please enter second digit: ", 
-  type: "number", 
-  name: "message2"
+  { 
+    message: chalk.greenBright.bold("\nPlease enter second digit:"), 
+    type: "number", 
+    name: "message2"
   },
-
   {
-    message: "Please choose the operation to be performed: ",
+    message: chalk.redBright.bold("\nPlease choose the operation to be performed:"),
     type: "list",
     name: "operators",
-    choices: ["Addition", "Subtraction", "Multiplication", "Division"]
+    choices: [
+      chalk.cyanBright.bold("Addition"), 
+      chalk.blueBright.bold("Subtraction"), 
+      chalk.magentaBright.bold("Multiplication"), 
+      chalk.yellowBright.bold("Division")
+    ]
   },
 ]);
-if (result.operators === "Addition"){
-    console.log(`Your answer is: ${result.message1 + result.message2}`)
+
+
+if (result.operators === chalk.cyanBright.bold("Addition")) {
+    console.log(chalk.bgCyan.bold(`\nYour answer is: ${result.message1 + result.message2}`));
+} else if (result.operators === chalk.magentaBright.bold("Multiplication")) {
+    console.log(chalk.bgCyan.bold(`\nYour answer is: ${result.message1 * result.message2}`));
+} else if (result.operators === chalk.blueBright.bold("Subtraction")) {
+    console.log(chalk.bgCyan.bold(`\nYour answer is: ${result.message1 - result.message2}`));
+} else if (result.operators === chalk.yellowBright.bold("Division")) {
+    if (result.message2 === 0) {
+        console.log(chalk.bgRed.bold("\nError: Division by zero"));
+    } else {
+        console.log(chalk.bgCyan.bold(`\nYour answer is: ${result.message1 / result.message2}`));
+    }
+} else {
+    console.log(chalk.bgRed.bold("\nYour input is invalid, please try again."));
 }
-else if (result.operators === "Multiplication"){
-    console.log(`Your answer is: ${result.message1 * result.message2}`)
-}
-else if (result.operators === "Subtraction"){
-    console.log(`Your answer is: ${result.message1 - result.message2}`)
-}
-else if (result.operators === "Division"){
-    console.log(`Your answer is: ${result.message1 / result.message2}`)
-}
-else{
-    console.log("Your input is invalid, please try again.")
-};
